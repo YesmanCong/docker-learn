@@ -1,0 +1,42 @@
+<assembly>
+    <id>release</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${basedir}/src/main/resources/mapper</directory>
+            <includes>
+                <include>**</include>
+            </includes>
+            <filtered>false</filtered>
+            <outputDirectory>${file.separator}mapper</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/resources</directory>
+            <includes>
+                <include>application.properties</include>
+                <include>application.yml</include>
+            </includes>
+            <filtered>true</filtered>
+            <outputDirectory>${file.separator}config</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources/script</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <includes>
+                <include>dockerDemo-${project.version}.jar</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>

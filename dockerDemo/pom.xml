@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.demo</groupId>
-    <artifactId>dockerDemo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>docker_demo</artifactId>
+    <version>0.4.2</version>
     <name>dockerDemo</name>
     <description>dockerDemo</description>
 
@@ -74,9 +74,36 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>registry.cn-hangzhou.aliyuncs.com/cong_learning_java/docker_images/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <username>我的冷晖枪呢</username>
+                    <password>tingting333</password>
+                    <buildArgs>
+                        <APP_NAME>${project.artifactId}-${project.version}.jar</APP_NAME>
+                        <TARGET_FILE>target</TARGET_FILE>
+                        <JVM_OPTS>-Xms 256m -Xmx256m</JVM_OPTS>
+                    </buildArgs>
+
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -84,6 +111,58 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <!--不打包资源文件 本地运行找不到配置把这行注释 -->
+                    <excludes>
+                        <exclude>/config/application.*</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.demo.dockerdemo.DockerDemoApplication</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>.</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly/release.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
