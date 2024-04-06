@@ -10,7 +10,8 @@
     </parent>
     <groupId>com.demo</groupId>
     <artifactId>docker_demo</artifactId>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
+    <packaging>jar</packaging>
     <name>dockerDemo</name>
     <description>dockerDemo</description>
 
@@ -74,6 +75,26 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-lib</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.4</version>
@@ -82,12 +103,15 @@
                         <id>default</id>
                         <goals>
                             <goal>build</goal>
+                            <goal>tag</goal>
                             <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>registry.cn-hangzhou.aliyuncs.com/cong_learning_java/docker_images/${project.artifactId}</repository>
+                    <force>true</force>
+
+                    <repository>registry.cn-hangzhou.aliyuncs.com/cong_learning_java/${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                     <username>我的冷晖枪呢</username>
                     <password>tingting333</password>
@@ -103,13 +127,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
@@ -119,11 +137,14 @@
                 <configuration>
                     <!--不打包资源文件 本地运行找不到配置把这行注释 -->
                     <excludes>
-                        <exclude>/config/application.*</exclude>
+                        <exclude>/config/application.yml</exclude>
+                        <exclude>/config/application.properties</exclude>
                     </excludes>
                     <archive>
                         <manifest>
                             <mainClass>com.demo.dockerdemo.DockerDemoApplication</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>./lib/</classpathPrefix>
                         </manifest>
                         <manifestEntries>
                             <Class-Path>.</Class-Path>
@@ -145,25 +166,25 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly/release.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>2.4</version>-->
+<!--                <configuration>-->
+<!--                    <descriptors>-->
+<!--                        <descriptor>assembly/release.xml</descriptor>-->
+<!--                    </descriptors>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

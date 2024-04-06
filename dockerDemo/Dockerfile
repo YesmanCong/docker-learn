@@ -11,6 +11,7 @@ WORKDIR /app
 ADD ${TARGET_FILE}/${APP_NAME} app.jar
 ADD ${TARGET_FILE}/classes/application.properties ./config/
 ADD ${TARGET_FILE}/classes/application.yml ./config/
+ADD ${TARGET_FILE}/lib/ ./lib/
 
 RUN pwd && ls
 

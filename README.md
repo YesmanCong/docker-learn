@@ -9,22 +9,23 @@ docker基础学习 完成一个基础项目构建 包含数据库 redis nginx  k
 本地暴漏2375端口后 重启一下
 
 # docker images
-1. 上传项目镜像到私有仓库
-2. 在本地拿取镜像并启动
+1. 上传项目镜像到私有仓库(done)
+2. 在本地拿取镜像并启动(done)
 
 # Dockerfile
-1. 自行构建项目镜像
-2. 自行构建项目镜像(包含启动需要的第三方环境)
+1. 自行构建项目镜像(done)
 
 # docker-compose
 
 1. docker-compose部署spring boot 项目 
    - 启动 postgresql redis springboot-app 形成可运行服务
+2. 自行构建项目镜像(包含启动需要的第三方环境)
+   
 
-# docker-spring-boot maven
-1. 使用maven插件完成镜像构建
-2. 使用maven构建出的镜像上传到仓库
-3. 使用该镜像完成项目启动
+# dockerfile-maven-plugin maven
+1. 使用maven插件完成镜像构建(done)
+2. 使用maven构建出的镜像上传到仓库(done)
+3. 使用该镜像完成项目启动(done)
 
 # docker 实战2
 1. 使用搭建elk日志收集
