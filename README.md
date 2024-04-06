@@ -17,9 +17,9 @@ docker基础学习 完成一个基础项目构建 包含数据库 redis nginx  k
 
 # docker-compose
 
-1. docker-compose部署spring boot 项目 
-   - 启动 postgresql redis springboot-app 形成可运行服务
-2. 自行构建项目镜像(包含启动需要的第三方环境)
+1. docker-compose部署spring boot 项目 (done)
+   - 启动 postgresql redis springboot-app 形成可运行服务(done)
+2. 自行构建项(done)
    
 
 # dockerfile-maven-plugin maven

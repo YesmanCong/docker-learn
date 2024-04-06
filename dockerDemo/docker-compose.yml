@@ -1,0 +1,40 @@
+version: '3'
+services:
+  demo:
+    image: registry.cn-hangzhou.aliyuncs.com/cong_learning_java/docker_demo:0.4.3
+    ports:
+      - 8081-8090:8081
+    volumes:
+      - D:\DockerVolume\docker_demo\config\:/app/config/:rw
+    networks:
+      - my-network
+    depends_on:
+      - redis
+      - postgresql
+
+  redis:
+    image: redis:latest
+    networks:
+      - my-network
+    ports:
+      - 6379:6379
+
+  postgresql:
+    image: postgres:latest
+    networks:
+      - my-network
+    volumes:
+      - D:\DockerVolume\postgres\:/var/lib/postgresql/:rw
+    ports:
+      - 5432:5432
+    environment:
+          - POSTGRES_PASSWORD=123456
+
+networks:
+  my-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.161.0.0/24
+          gateway: 172.161.0.1
+

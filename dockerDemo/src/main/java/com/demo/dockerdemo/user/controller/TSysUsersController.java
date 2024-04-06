@@ -1,5 +1,6 @@
 package com.demo.dockerdemo.user.controller;
 
+import com.demo.dockerdemo.user.api.*;
 import com.demo.dockerdemo.user.entity.TSysUsers;
 import com.demo.dockerdemo.user.service.TSysUsersService;
 
@@ -58,6 +59,24 @@ public class TSysUsersController {
     @PostMapping
     public ResponseEntity<TSysUsers> add(TSysUsers tSysUsers) {
         return ResponseEntity.ok(this.tSysUsersService.insert(tSysUsers));
+    }
+    /**
+     * 登录
+     *
+     * @return 新增结果
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> login(LoginReq req) {
+        return ResponseEntity.ok(this.tSysUsersService.login(req));
+    }
+    /**
+     * 登出
+     *
+     * @return 新增结果
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<Boolean> logout(LogoutReq req) {
+        return ResponseEntity.ok(this.tSysUsersService.logout(req));
     }
 
     /**
